@@ -24,6 +24,12 @@
    tres divisiones de parte, y un índice fijo a la izquierda en pantalla
    grande, que es lo que hace que se lea como un sitio de documentación.
 
+   Las escalas subieron un escalón el 29 de octubre, porque el texto quedaba
+   chico para proyectar. La regla que lo mantiene en pie: si vuelve a subir
+   la tipografía, el RELLENO NO SUBE CON ELLA. Lo que convierte esto en
+   diapositivas no es el tamaño de la letra sino el aire alrededor; mientras
+   entren varios bloques por pantalla, se sigue leyendo como un documento.
+
    Sin librerías ni tipografías descargadas: el sitio tiene que funcionar
    sin conexión una vez cargado.
    ========================================================================== */
@@ -134,8 +140,8 @@ body {
      quien tenga puesto en su navegador, que es lo que usa el que proyecta
      y el que ve mal de cerca. Con el valor de fábrica (16 px) da los mismos
      16,5 px de antes, así que no cambia nada para quien no tocó nada. */
-  font-size: 1.03rem;
-  line-height: 1.62;
+  font-size: 1.09rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -317,7 +323,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
   }
   .indice__enlace[aria-current="true"] { background: var(--accent-soft); }
   .indice__num { font-size: 0.68rem; }
-  .indice__nombre { font-family: var(--sans); font-size: 0.82rem; line-height: 1.3; }
+  .indice__nombre { font-family: var(--sans); font-size: 0.85rem; line-height: 1.3; }
 
   /* El botón de la barra sigue sirviendo: aquí pliega y despliega la
      columna, y es la única manera de traerla de vuelta cuando está
@@ -336,7 +342,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
 .bloque--ancho .bloque__caja { max-width: var(--ancho-amplio); }
 
 .bloque__rotulo {
-  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--muted); margin-bottom: 0.45rem;
   display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
 }
@@ -347,27 +353,27 @@ code { font-family: var(--mono); font-size: 0.88em; }
 }
 
 .bloque__titular {
-  font-size: clamp(1.18rem, 1.9vw, 1.38rem);
-  line-height: 1.26; letter-spacing: -0.005em; margin-bottom: 0.7rem;
+  font-size: clamp(1.3rem, 2.1vw, 1.52rem);
+  line-height: 1.24; letter-spacing: -0.008em; margin-bottom: 0.75rem;
   text-wrap: balance;
 }
-.bloque__titular--grande { font-size: clamp(1.32rem, 2.4vw, 1.7rem); line-height: 1.22; }
+.bloque__titular--grande { font-size: clamp(1.45rem, 2.6vw, 1.85rem); line-height: 1.2; }
 
 .bloque__bajada {
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--ink-suave); max-width: 62ch; margin-bottom: 1rem;
 }
 .bloque--ancho .bloque__bajada { max-width: 72ch; }
 .bloque__bajada--clave { max-width: 64ch; }
 
 .bloque__remate {
-  margin-top: 1.1rem; font-size: 0.98rem; color: var(--ink-suave);
+  margin-top: 1.1rem; font-size: 1.02rem; color: var(--ink-suave);
   max-width: 66ch; padding-left: 0.9rem;
   border-left: 3px solid var(--rule-fuerte);
 }
 
 .fuente {
-  margin-top: 1.3rem; font-size: 0.78rem; color: var(--muted);
+  margin-top: 1.3rem; font-size: 0.8rem; color: var(--muted);
   border-top: 1px solid var(--rule); padding-top: 0.5rem;
 }
 
@@ -379,7 +385,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
   padding: calc(var(--barra-h) + 2.6rem) 1.5rem 3rem;
 }
 .bloque--portada h1 {
-  font-size: clamp(1.8rem, 4.2vw, 2.7rem);
+  font-size: clamp(1.95rem, 4.4vw, 2.9rem);
   letter-spacing: -0.02em; margin-bottom: 0.9rem; text-wrap: balance;
 }
 /* La firma. Serif y a tamaño de subtítulo, para que se lea como autoría y
@@ -431,10 +437,10 @@ code { font-family: var(--mono); font-size: 0.88em; }
   opacity: 0.75; margin-bottom: 0.8rem;
 }
 .parte__nombre {
-  font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+  font-size: clamp(1.65rem, 3.4vw, 2.3rem);
   letter-spacing: -0.015em; margin-bottom: 0.8rem; text-wrap: balance;
 }
-.parte__que { font-size: 0.98rem; opacity: 0.88; max-width: 62ch; }
+.parte__que { font-size: 1.02rem; opacity: 0.88; max-width: 62ch; }
 
 /* --- Apertura de sección: un título de capítulo, no una portadilla --- */
 
@@ -444,11 +450,11 @@ code { font-family: var(--mono); font-size: 0.88em; }
 }
 .bloque--parte + .bloque--seccion { padding-top: 2rem; }
 .seccion__titulo {
-  font-size: clamp(1.45rem, 2.8vw, 1.95rem);
+  font-size: clamp(1.6rem, 3vw, 2.15rem);
   letter-spacing: -0.015em; margin-bottom: 0.9rem; text-wrap: balance;
 }
 .seccion__promesa {
-  font-size: 0.98rem; color: var(--ink-suave); max-width: 66ch;
+  font-size: 1.02rem; color: var(--ink-suave); max-width: 66ch;
   padding-left: 0.9rem; border-left: 3px solid var(--rule-fuerte);
 }
 
@@ -483,7 +489,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
   border: 1px solid var(--rule);
   border-left: 4px solid var(--accent);
   border-radius: var(--radio);
-  padding: 1.2rem 1.3rem; font-size: 1.02rem;
+  padding: 1.2rem 1.3rem; font-size: 1.06rem;
 }
 .foco--cita {
   border-left-color: var(--rule-fuerte);
@@ -563,7 +569,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
 .llevar__lista { list-style: none; margin: 0; padding: 0; }
 .llevar__lista li {
   position: relative; padding: 0.5rem 0 0.5rem 1.4rem;
-  font-size: 1rem; line-height: 1.5;
+  font-size: 1.04rem; line-height: 1.5;
 }
 .llevar__lista li + li { border-top: 1px solid var(--rule); }
 .llevar__lista li::before {
