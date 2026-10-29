@@ -1,0 +1,10 @@
+# Este repositorio es público y la carpeta de arriba tiene un libro con
+# derechos reservados, artículos y las respuestas de un sondeo con personas.
+# Nada de eso puede entrar aquí ni por accidente.
+*.pdf
+*.xlsx
+*.xls
+*.docx
+
+.DS_Store
+Thumbs.db
