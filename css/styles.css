@@ -66,8 +66,13 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --barra-h: 3rem;
-  --ancho: 44rem;
-  --ancho-amplio: 62rem;
+  /* Los dos anchos van a propósito CERCA uno del otro: 6rem de diferencia,
+     3rem por lado. Cuando estaban a 18rem de distancia, pasar de un bloque
+     de texto a un modelo interactivo y volver se sentía como un salto, y
+     sobraba espacio a los lados del texto. La prosa no se estira con la
+     columna: la limitan los topes en `ch` de cada pieza. */
+  --ancho: 52rem;
+  --ancho-amplio: 58rem;
   /* Ancho del índice fijo de la izquierda. Solo existe arriba de 68rem. */
   --rail: 19rem;
   --radio: 10px;
@@ -361,14 +366,14 @@ code { font-family: var(--mono); font-size: 0.88em; }
 
 .bloque__bajada {
   font-size: 1.05rem;
-  color: var(--ink-suave); max-width: 62ch; margin-bottom: 1rem;
+  color: var(--ink-suave); max-width: 72ch; margin-bottom: 1rem;
 }
-.bloque--ancho .bloque__bajada { max-width: 72ch; }
-.bloque__bajada--clave { max-width: 64ch; }
+.bloque--ancho .bloque__bajada { max-width: 80ch; }
+.bloque__bajada--clave { max-width: 72ch; }
 
 .bloque__remate {
   margin-top: 1.1rem; font-size: 1.02rem; color: var(--ink-suave);
-  max-width: 66ch; padding-left: 0.9rem;
+  max-width: 74ch; padding-left: 0.9rem;
   border-left: 3px solid var(--rule-fuerte);
 }
 
@@ -402,7 +407,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
 }
 .portada__bajada {
   font-size: clamp(1rem, 1.7vw, 1.12rem);
-  color: var(--ink-suave); max-width: 56ch; margin-bottom: 1.6rem;
+  color: var(--ink-suave); max-width: 64ch; margin-bottom: 1.6rem;
 }
 .portada__abrir { margin-top: 1.6rem; }
 
@@ -440,7 +445,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
   font-size: clamp(1.65rem, 3.4vw, 2.3rem);
   letter-spacing: -0.015em; margin-bottom: 0.8rem; text-wrap: balance;
 }
-.parte__que { font-size: 1.02rem; opacity: 0.88; max-width: 62ch; }
+.parte__que { font-size: 1.02rem; opacity: 0.88; max-width: 70ch; }
 
 /* --- Apertura de sección: un título de capítulo, no una portadilla --- */
 
@@ -454,7 +459,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
   letter-spacing: -0.015em; margin-bottom: 0.9rem; text-wrap: balance;
 }
 .seccion__promesa {
-  font-size: 1.02rem; color: var(--ink-suave); max-width: 66ch;
+  font-size: 1.02rem; color: var(--ink-suave); max-width: 74ch;
   padding-left: 0.9rem; border-left: 3px solid var(--rule-fuerte);
 }
 
@@ -466,7 +471,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
   border-radius: 0 var(--radio) var(--radio) 0;
   padding: 1.3rem 1.4rem;
 }
-.bloque--clave .bloque__titular--grande { max-width: 34ch; }
+.bloque--clave .bloque__titular--grande { max-width: 38ch; }
 
 /* --- Enlace a la sección siguiente, lo agrega js/secciones.js --- */
 
