@@ -136,21 +136,27 @@ python3 -m http.server 8000
 
 Y luego abrir `http://localhost:8000` en el navegador. Para detenerlo, `Ctrl+C`.
 
-## Publicar en GitHub Pages
+## Dónde está publicado
 
-La primera vez:
+El sitio vive en <https://desojuel.github.io/pensamiento-orden-superior-ia/>, y se publica
+desde <https://github.com/desojuel/pensamiento-orden-superior-ia> (rama `main`, raíz).
 
-1. Crear un repositorio **público** en GitHub, sin README ni licencia automáticos.
-2. Subir el contenido de esta carpeta a la rama `main`.
-3. En el repositorio, ir a **Settings → Pages**, y en **Source** elegir
-   **Deploy from a branch**, rama `main`, carpeta `/ (root)`.
-4. Esperar un par de minutos. La dirección aparece en esa misma pantalla.
+Para actualizarlo hay dos caminos:
 
-Después, cada vez que se confirme un cambio en `main`, el sitio se actualiza solo.
+- **Desde GitHub**, editando `index.html` con el lápiz y confirmando el cambio, como se
+  explica más arriba.
+- **Desde la computadora**, con los cambios ya guardados en esta carpeta:
+
+  ```bash
+  git add -A && git commit -m "qué cambió" && git push
+  ```
+
+En los dos casos, GitHub vuelve a publicar solo en un par de minutos.
 
 **Importante:** este repositorio es público, y la carpeta de arriba contiene PDF de artículos
 y libros con derechos de autor y un archivo con respuestas de personas identificables. Nada de
-eso puede subirse. Solo se sube el contenido de `sitio/`.
+eso puede subirse. El `.gitignore` bloquea los PDF y las hojas de cálculo como red de
+seguridad, pero conviene revisar `git status` antes de confirmar cualquier cambio.
 
 ## Para proyectar
 
