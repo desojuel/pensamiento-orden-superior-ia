@@ -153,6 +153,11 @@ Para actualizarlo hay dos caminos:
 
 En los dos casos, GitHub vuelve a publicar solo en un par de minutos.
 
+**Si el cambio no se ve, es la caché del navegador, no GitHub.** Las hojas de estilo y los
+archivos de JavaScript quedan guardados unos minutos. Para forzar que se vuelvan a bajar,
+recargar con **`Cmd` `Shift` `R`** (o `Ctrl` `Shift` `R` en Windows). Conviene hacerlo siempre
+antes de concluir que algo no se publicó.
+
 **Importante:** este repositorio es público, y la carpeta de arriba contiene PDF de artículos
 y libros con derechos de autor y un archivo con respuestas de personas identificables. Nada de
 eso puede subirse. El `.gitignore` bloquea los PDF y las hojas de cálculo como red de
