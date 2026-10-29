@@ -130,7 +130,11 @@ body {
   background: var(--fondo);
   color: var(--ink);
   font-family: var(--sans);
-  font-size: 16.5px;
+  /* Relativo y no en px: así el sitio respeta el tamaño de letra que cada
+     quien tenga puesto en su navegador, que es lo que usa el que proyecta
+     y el que ve mal de cerca. Con el valor de fábrica (16 px) da los mismos
+     16,5 px de antes, así que no cambia nada para quien no tocó nada. */
+  font-size: 1.03rem;
   line-height: 1.62;
   -webkit-font-smoothing: antialiased;
 }
