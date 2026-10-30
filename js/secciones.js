@@ -9,7 +9,8 @@
      6. /04 — las tres tareas
      7. /05 — tarjetas que se voltean
      8. /11 — espectro de políticas
-     9. /12 — imprimir solo la lista de reflexión
+     9. El documento se recorre de parte en parte
+    10. /12 y /13 — imprimir solo una lista de reflexión
 
    Es un sitio que se lee desplazándose: no hay navegación por saltos ni
    captura de las flechas del teclado. Las flechas hacen lo que hacen en
@@ -91,8 +92,12 @@
      girar el teléfono). */
 
   (function ubicacion() {
-    var bloques = Array.prototype.slice.call(document.querySelectorAll('.bloque'));
-    if (!bloques.length) { return; }
+    var todos = Array.prototype.slice.call(document.querySelectorAll('.bloque'));
+    if (!todos.length) { return; }
+
+    // Solo cuentan los bloques de la parte que se está mostrando: los demás
+    // están ocultos y su posición sería 0, que arruinaría el cálculo.
+    var bloques = todos;
 
     var donde = document.getElementById('barraDonde');
     var barraProgreso = document.getElementById('progreso');
@@ -108,6 +113,8 @@
     var altoDoc = 0;
 
     function medir() {
+      bloques = todos.filter(function (b) { return b.offsetParent !== null; });
+      if (!bloques.length) { bloques = todos; }
       tops = bloques.map(function (b) {
         return b.getBoundingClientRect().top + window.scrollY;
       });
@@ -125,7 +132,10 @@
 
       if (document.documentElement.scrollHeight !== altoDoc) { medir(); }
 
-      var limite = window.scrollY + altoBarra() + 12;
+      // El margen extra no es decorativo: cuando el navegador salta a un
+      // ancla, la deja justo en el borde, y con un margen más ajustado el
+      // redondeo dejaba la barra anunciando la sección anterior.
+      var limite = window.scrollY + altoBarra() + 24;
       var i = 0;
       for (var k = 0; k < tops.length; k++) {
         if (tops[k] <= limite) { i = k; }
@@ -166,7 +176,13 @@
     }
 
     window.addEventListener('scroll', alDesplazar, { passive: true });
-    window.addEventListener('resize', function () { medir(); pintar(); });
+    // También se dispara a mano al cambiar de parte: ahí hay que volver a
+    // medir y a decidir la sección desde cero, sin el atajo de «no cambió».
+    window.addEventListener('resize', function () {
+      ultimaSeccion = null;
+      medir();
+      pintar();
+    });
     window.addEventListener('load', function () { medir(); pintar(); });
     document.addEventListener('toggle', function (e) {
       if (e.target && e.target.tagName === 'DETAILS') { medir(); pintar(); }
@@ -370,7 +386,153 @@
     mostrar(botones[0].getAttribute('aria-controls'));
   }());
 
-  /* 9. /12 y /13 — imprimir solo una lista ---------------------------------
+  /* 9. El documento se recorre de parte en parte ----------------------------
+     Todo el texto sigue viviendo en un solo index.html —el autor lo edita en
+     un solo lugar— pero la página muestra una parte a la vez, como un libro
+     que se pasa de capítulo en capítulo. Son seis vistas: la portada, las
+     tres partes del cuerpo, los anexos y las referencias.
+
+     Dónde empieza cada vista no se escribe aquí: se deduce del propio
+     documento. Empieza una vista en el primer bloque, en cada separador
+     `.bloque--parte` y en las referencias. Agregar o quitar una parte en el
+     HTML no obliga a tocar este archivo.
+
+     Cada vista tiene un identificador propio (`s00`, `p1`…`p4`, `s14`), así
+     que la dirección del navegador sirve para enlazar una parte, y los
+     enlaces internos de cualquier sección llevan a la parte donde vive. */
+
+  (function partes() {
+    var main = document.getElementById('documento');
+    var paso = document.getElementById('paso');
+    if (!main || !paso) { return; }
+
+    var hijos = Array.prototype.slice.call(main.children).filter(function (b) {
+      return b.classList.contains('bloque');
+    });
+    if (hijos.length < 2) { return; }
+
+    function nombreDe(b) {
+      if (b.classList.contains('bloque--portada')) { return 'Portada'; }
+      var orden = b.querySelector('.parte__orden');
+      if (orden) { return orden.textContent.trim(); }
+      var rotulo = b.querySelector('.bloque__titular');
+      return rotulo ? rotulo.textContent.trim() : 'Sección';
+    }
+
+    var vistas = [];
+    hijos.forEach(function (b, i) {
+      if (i === 0 || b.classList.contains('bloque--parte') || b.id === 's14') {
+        vistas.push({ nombre: nombreDe(b), ancla: b.id, bloques: [] });
+      }
+      vistas[vistas.length - 1].bloques.push(b);
+    });
+    if (vistas.length < 2) { return; }
+
+    function vistaDe(nodo) {
+      while (nodo && nodo.parentNode !== main) { nodo = nodo.parentNode; }
+      if (!nodo) { return -1; }
+      for (var i = 0; i < vistas.length; i++) {
+        if (vistas[i].bloques.indexOf(nodo) !== -1) { return i; }
+      }
+      return -1;
+    }
+
+    var actual = -1;
+
+    function botón(i, direccion) {
+      if (i < 0 || i >= vistas.length) {
+        return '<span class="paso__hueco"></span>';
+      }
+      var v = vistas[i];
+      return '<a class="paso__btn paso__btn--' + direccion + '" href="#' + v.ancla + '">' +
+             '<span class="paso__etiqueta">' +
+             (direccion === 'prev' ? 'Anterior' : 'Siguiente') + '</span>' +
+             '<span class="paso__nombre">' + v.nombre + '</span></a>';
+    }
+
+    function pintarPaso() {
+      paso.innerHTML =
+        botón(actual - 1, 'prev') +
+        '<span class="paso__cuenta">' + (actual + 1) + ' de ' + vistas.length + '</span>' +
+        botón(actual + 1, 'next');
+    }
+
+    function mostrar(n, ancla) {
+      n = Math.max(0, Math.min(vistas.length - 1, n));
+      actual = n;
+
+      vistas.forEach(function (v, i) {
+        v.bloques.forEach(function (b, j) {
+          b.classList.toggle('bloque--fuera', i !== n);
+          b.classList.toggle('bloque--primero', i === n && j === 0);
+        });
+      });
+
+      pintarPaso();
+
+      // Sin animación: cambiar de parte es pasar la página, no desplazarse.
+      // Y si fuera suave, la barra calcularía la sección antes de llegar.
+      var destino = ancla && document.getElementById(ancla);
+      var y = 0;
+      if (destino && vistaDe(destino) === n && ancla !== vistas[n].ancla) {
+        y = Math.max(0, destino.getBoundingClientRect().top + window.scrollY - 56);
+      }
+      window.scrollTo({ top: y, behavior: 'auto' });
+
+      // La barra y el progreso miden posiciones: con otra parte a la vista,
+      // las que tenían ya no sirven.
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    function desdeHash() {
+      var id = (window.location.hash || '').replace('#', '');
+      var el = id && document.getElementById(id);
+      var n = el ? vistaDe(el) : -1;
+      if (n === -1) { mostrar(actual === -1 ? 0 : actual, null); return; }
+      mostrar(n, id);
+    }
+
+    window.addEventListener('hashchange', desdeHash);
+
+    // Un enlace a la parte en la que ya se está no dispara hashchange, pero
+    // igual tiene que llevar al bloque, que puede estar fuera de la pantalla.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (!a) { return; }
+      var id = a.getAttribute('href').replace('#', '');
+      if (!id || id === window.location.hash.replace('#', '')) { return; }
+      var el = document.getElementById(id);
+      if (!el) { return; }
+      var n = vistaDe(el);
+      if (n !== -1 && n !== actual) {
+        e.preventDefault();
+        window.location.hash = id;
+      }
+    });
+
+    var arriba = document.getElementById('botonArriba');
+    if (arriba) {
+      arriba.addEventListener('click', function () { window.scrollTo(0, 0); });
+    }
+
+    // Quien decide dónde queda la página al abrirla es este archivo, no el
+    // navegador: si se le deja a él, restaura la posición de la visita
+    // anterior o salta al ancla por su cuenta, y con una sola parte a la
+    // vista las dos cosas dejan al lector en otro lado.
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    desdeHash();
+
+    // Y se repite al terminar de cargar, cuando ya están las alturas
+    // definitivas y cualquier salto del navegador quedó atrás.
+    window.addEventListener('load', function () {
+      window.setTimeout(function () { desdeHash(); }, 0);
+    });
+  }());
+
+  /* 10. /12 y /13 — imprimir solo una lista ---------------------------------
      Hay dos anexos y cada uno tiene su botón. La clase en el body esconde
      todo dentro de @media print salvo el bloque marcado, que es el que
      contiene el botón que se pulsó. No hay respuestas que imprimir: se
