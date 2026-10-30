@@ -236,6 +236,17 @@ code { font-family: var(--mono); font-size: 0.88em; }
 }
 .barra__arriba:hover, .barra__tema:hover { background: var(--fondo-2); }
 
+/* Vuelve a la portada desde cualquier parte. Solo aparece cuando hay a
+   dónde volver: en la portada misma el JS lo esconde. */
+.barra__portada {
+  font: inherit; font-size: 0.78rem;
+  height: 2rem; padding: 0 0.7rem;
+  background: none; border: 1px solid var(--rule); border-radius: 6px;
+  color: var(--ink-suave); cursor: pointer; white-space: nowrap;
+}
+.barra__portada:hover { background: var(--fondo-2); color: var(--ink); }
+.barra__portada[hidden] { display: none; }
+
 .progreso { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--accent); }
 
 /* --- Índice: desplegable en pantalla angosta, fijo a la izquierda en grande --- */

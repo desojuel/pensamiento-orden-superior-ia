@@ -404,6 +404,7 @@
   (function partes() {
     var main = document.getElementById('documento');
     var paso = document.getElementById('paso');
+    var portada = document.getElementById('botonPortada');
     if (!main || !paso) { return; }
 
     var hijos = Array.prototype.slice.call(main.children).filter(function (b) {
@@ -470,6 +471,9 @@
 
       pintarPaso();
 
+      // El botón de volver a la portada solo tiene sentido fuera de ella.
+      if (portada) { portada.hidden = (n === 0); }
+
       // Sin animación: cambiar de parte es pasar la página, no desplazarse.
       // Y si fuera suave, la barra calcularía la sección antes de llegar.
       var destino = ancla && document.getElementById(ancla);
@@ -513,6 +517,12 @@
     var arriba = document.getElementById('botonArriba');
     if (arriba) {
       arriba.addEventListener('click', function () { window.scrollTo(0, 0); });
+    }
+
+    if (portada) {
+      portada.addEventListener('click', function () {
+        window.location.hash = vistas[0].ancla;
+      });
     }
 
     // Quien decide dónde queda la página al abrirla es este archivo, no el
