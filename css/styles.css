@@ -66,13 +66,21 @@
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --barra-h: 3rem;
-  /* Los dos anchos van a propósito CERCA uno del otro: 6rem de diferencia,
+  /* El ancho de la página CRECE CON LA VENTANA. Con un ancho fijo en rem
+     pasaba lo contrario: cuanta más pantalla, más aire muerto a los lados,
+     y en un monitor grande el texto volvía a quedar como una cinta angosta
+     en el medio. Ahora ocupa el 88 % de lo disponible, con un piso para que
+     no se angoste en pantallas chicas y un techo para que no se desborde en
+     las enormes.
+
+     Y los dos anchos van a propósito CERCA uno del otro: 6rem de diferencia,
      3rem por lado. Cuando estaban a 18rem de distancia, pasar de un bloque
-     de texto a un modelo interactivo y volver se sentía como un salto, y
-     sobraba espacio a los lados del texto. La prosa no se estira con la
-     columna: la limitan los topes en `ch` de cada pieza. */
-  --ancho: 52rem;
-  --ancho-amplio: 58rem;
+     de texto a un modelo interactivo y volver se sentía como un salto.
+     La prosa no se estira con la columna: la limitan los topes en `ch`. */
+  --pagina: min(max(58rem, 92%), 72rem);
+  --sangria: 5rem;
+  /* El techo de la columna de texto, para el índice y para medir. */
+  --ancho-amplio: 72rem;
   /* Ancho del índice fijo de la izquierda. Solo existe arriba de 68rem. */
   --rail: 19rem;
   --radio: 10px;
@@ -343,8 +351,8 @@ code { font-family: var(--mono); font-size: 0.88em; }
    caben en una pantalla, que es la diferencia con una presentación. */
 .bloque { padding: 1.5rem 1.5rem 1.7rem; }
 
-.bloque__caja { width: 100%; max-width: var(--ancho); margin: 0 auto; }
-.bloque--ancho .bloque__caja { max-width: var(--ancho-amplio); }
+.bloque__caja { width: 100%; max-width: calc(var(--pagina) - var(--sangria)); margin: 0 auto; }
+.bloque--ancho .bloque__caja { max-width: var(--pagina); }
 
 .bloque__rotulo {
   font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase;
@@ -366,14 +374,14 @@ code { font-family: var(--mono); font-size: 0.88em; }
 
 .bloque__bajada {
   font-size: 1.05rem;
-  color: var(--ink-suave); max-width: 72ch; margin-bottom: 1rem;
+  color: var(--ink-suave); max-width: 76ch; margin-bottom: 1rem;
 }
-.bloque--ancho .bloque__bajada { max-width: 80ch; }
+.bloque--ancho .bloque__bajada { max-width: 84ch; }
 .bloque__bajada--clave { max-width: 72ch; }
 
 .bloque__remate {
   margin-top: 1.1rem; font-size: 1.02rem; color: var(--ink-suave);
-  max-width: 74ch; padding-left: 0.9rem;
+  max-width: 78ch; padding-left: 0.9rem;
   border-left: 3px solid var(--rule-fuerte);
 }
 
@@ -459,7 +467,7 @@ code { font-family: var(--mono); font-size: 0.88em; }
   letter-spacing: -0.015em; margin-bottom: 0.9rem; text-wrap: balance;
 }
 .seccion__promesa {
-  font-size: 1.02rem; color: var(--ink-suave); max-width: 74ch;
+  font-size: 1.02rem; color: var(--ink-suave); max-width: 78ch;
   padding-left: 0.9rem; border-left: 3px solid var(--rule-fuerte);
 }
 
