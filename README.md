@@ -9,7 +9,12 @@ paso de compilación. Se edita el archivo, se guarda y se publica.
 
 ## Cómo está armado
 
-El sitio se lee desplazándose, como cualquier página. El contenido está dividido en
+**El sitio se recorre de parte en parte.** Muestra una a la vez y al final de cada una hay
+botones de **anterior** y **siguiente**, como un libro que se pasa de capítulo en capítulo. Son
+seis vistas: la portada, las tres partes, los anexos y las referencias. Todo el texto sigue en
+un solo `index.html`: no hay un archivo por parte.
+
+Dentro de cada parte, el sitio se lee desplazándose, como cualquier página. El contenido está dividido en
 **bloques**: cada bloque dice una sola cosa y lleva su cita abajo. Lo que no cabe en el
 bloque va en un `<details>` («Más detalle»), que se abre solo si alguien lo pide.
 
@@ -167,8 +172,9 @@ seguridad, pero conviene revisar `git status` antes de confirmar cualquier cambi
 
 - El sitio funciona sin conexión una vez que cargó: no usa ninguna librería externa ni
   tipografías descargadas. Conviene abrirlo antes de empezar.
-- Se avanza desplazándose, con la rueda, la barra espaciadora o `AvPág` / `RePág`, como en
-  cualquier página. En pantalla ancha el índice es una columna a la izquierda que marca la
+- Se avanza desplazándose dentro de cada parte, y se pasa a la siguiente con el botón del
+  final. Dentro de una parte funcionan la rueda, la barra espaciadora y `AvPág` / `RePág`, como
+  en cualquier página. En pantalla ancha el índice es una columna a la izquierda que marca la
   sección en la que va el lector; se pliega con el botón `‹` de la columna o con el de la
   barra, y se trae de vuelta con el de la barra. El sitio recuerda si quedó plegado. En
   pantalla angosta se abre y se cierra con el botón de la barra.
@@ -180,6 +186,8 @@ seguridad, pero conviene revisar `git status` antes de confirmar cualquier cambi
   y solo muestran los cambios de estado.
 
 ## Imprimir las listas de reflexión
+
+Al imprimir la página entera salen **todas las partes**, no solo la que está a la vista.
 
 Cada lista tiene su botón, y cada botón imprime **solo su lista**: las quince preguntas con
 su fundamento y las casillas vacías, para marcarlas a mano. Sirve igual para guardar en PDF
